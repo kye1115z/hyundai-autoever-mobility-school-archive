@@ -1,0 +1,81 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.page-title {
+  margin-bottom: 32px;
+  font-size: 32px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.card {
+  flex: 1 1 calc(33.333% - 16px);
+  max-width: 360px;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  align-items: flex-start;
+}
+
+.card-category {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background-color: var(--primary-color);
+  color: var(--white);
+}
+
+.card-title {
+  font-size: 20px;
+  color: var(--text-color);
+}
+
+.card-description {
+  color: var(--text-light);
+  line-height: 1.6;
+  /* 왜 line-height 한 번 더 쓰는 것임? */
+  flex-grow: 1;
+}
+
+.card-meta {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text-light);
+}

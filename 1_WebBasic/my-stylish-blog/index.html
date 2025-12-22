@@ -4,7 +4,89 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>김예은 블로그</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles/reset.css" />
+    <link rel="stylesheet" href="styles/variables.css" />
+    <link rel="stylesheet" href="styles/layout.css" />
+    <link rel="stylesheet" href="styles/responsive.css" />
   </head>
-  <body></body>
+  <body>
+    <div class="container">
+      <h1 class="page-title">최근 블로그 글</h1>
+
+      <div class="card-grid">
+        <article class="card">
+          <img
+            src="https://picsum.photos/358/200"
+            alt="블로그 썸네일"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <span class="card-category">개발</span>
+            <h2 class="card-title">Box Model 완벽 이해하기</h2>
+            <p class="card-description">
+              CSS의 핵심 개념인 Box Model을 쉽게 배워봅니다.
+            </p>
+            <div class="card-meta">
+              <span class="card-date">2024.12.20<br />목요일</span>
+              <span class="card-read-time">5분</span>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <img
+            src="https://picsum.photos/355/200"
+            alt="블로그 썸네일"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <span class="card-category">디자인</span>
+            <h2 class="card-title">색상 이론 기초</h2>
+            <p class="card-description">
+              웹 디자인에서 색상을 효과적으로 사용하는 방법을 배웁니다.
+            </p>
+            <div class="card-meta">
+              <span class="card-date">2024.12.19</span>
+              <span class="card-read-time">5분</span>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <img
+            src="https://picsum.photos/360/200"
+            alt="블로그 썸네일"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <span class="card-category">개발</span>
+            <h2 class="card-title">JavaScript 기초</h2>
+            <p class="card-description">
+              변수, 함수, 이벤트 처리 등 핵심 개념을 정리합니다.
+            </p>
+            <div class="card-meta">
+              <span class="card-date">2024.12.18</span>
+              <span class="card-read-time">10분</span>
+            </div>
+          </div>
+        </article>
+        <article class="card">
+          <img
+            src="https://picsum.photos/357/200"
+            alt="블로그 썸네일"
+            loading="lazy"
+          />
+          <div class="card-content">
+            <span class="card-category">개발</span>
+            <h2 class="card-title">Git 브랜치 전략</h2>
+            <p class="card-description">
+              효율적인 팀 협업을 위한 Git 브랜치 관리 방법을 소개합니다.
+            </p>
+            <div class="card-meta">
+              <span class="card-date">2024.12.17</span>
+              <span class="card-read-time">9분</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </body>
 </html>
