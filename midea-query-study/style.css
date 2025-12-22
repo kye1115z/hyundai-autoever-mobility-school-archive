@@ -1,0 +1,26 @@
+.container {
+  width: 250px;
+  height: 250px;
+  border: 2px solid black;
+}
+
+/* 모바일 */
+@media (min-width: 360px) {
+  .container {
+    background-color: red;
+  }
+}
+
+/* 태블릿 */
+@media (min-width: 768px) {
+  .container {
+    background-color: blue;
+  }
+}
+
+/* 데스크탑 */
+@media (min-width: 1024px) {
+  .container {
+    background-color: yellow;
+  }
+}
