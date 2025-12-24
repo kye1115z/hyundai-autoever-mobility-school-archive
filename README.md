@@ -33,34 +33,3 @@ README Test
 # OpenCV: Open Source Computer Vision Library
 
 ### Resources
-
-- Hompage: ![https://opencv.org](https://opencv.org)
-  - Courses: ![https://opencv.org](https://opencv.org)
-- Docs: ![https://opencv.org](https://opencv.org)
-- Q&A forum: ![https://opencv.org](https://opencv.org)
-  - Previous forum (read only) ![https://opencv.org](https://opencv.org)
-- Issue tracking: ![https://opencv.org](https://opencv.org)
-- Additional OpenCV: ![https://opencv.org](https://opencv.org)
-- Donate to OpenCV: ![https://opencv.org](https://opencv.org)
-
-### Contributing
-
-please read the ![contribution guidelines](https://opencv.org)
-
-##### Summary of the guidlines:
-
-- One pull request per issue;
-- Choose the right base branch;
-- Include tesets and documentation;
-- Clean up "oops" commits before submitting;
-- Follow the ![coding style guid](https://opencv.org)
-
-### Additional Resources
-
-- ![Submit your OpenCV-based project](https://opencv.org) for inclution in Community Fiday on opencv.org
-- ![Subscribe to the OpenCV YouTube Channel](https://opencv.org) featuring OpenCV Live, an hour-long streaming show
-- ![Follow OpenCV on LinnkedIn](https://opencv.org) for daily posts showing the state of the art in computer vision & AI
-- ![Apply to be an OpenCV Volunteer](https://opencv.org) to help organize events and online campaigns as well as amplify them
-- ![Follow OpenCV on Mastodon](https://opencv.org) in Fediverse
-- ![Follow OpenCV On Twitter](https://opencv.org)
-- ![OpenCV.ai](https://opencv.org): Computer Vision and AI development services from the OpenCV team.
