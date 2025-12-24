@@ -24,11 +24,3 @@ Kotlin
 ## IOS
 
 Swift
-
----
-
-README Test
-
-# OpenCV: Open Source Computer Vision Library
-
-### Resources
