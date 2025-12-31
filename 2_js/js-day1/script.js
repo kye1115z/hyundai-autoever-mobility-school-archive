@@ -97,12 +97,53 @@
 //     break;
 // }
 
-let point = 200;
-let numPurchase = 3;
-if (point >= 1000 && numPurchase >= 10) {
-  console.log("VIP");
-} else if (point >= 500 || numPurchase >= 5) {
-  console.log("Gold");
-} else {
-  console.log("Bronze");
+// let point = 200;
+// let numPurchase = 3;
+// if (point >= 1000 && numPurchase >= 10) {
+//   console.log("VIP");
+// } else if (point >= 500 || numPurchase >= 5) {
+//   console.log("Gold");
+// } else {
+//   console.log("Bronze");
+// }
+
+// // 6. 반복문
+// for (let i = 0; i < 10; i++) {
+//   console.log(i + 1);
+// }
+
+// let sum = 0;
+// for (let i = 1; i <= 100; i++) {
+//   if (i % 3 === 0) {
+//     console.log(i);
+//     sum += i;
+//   }
+// }
+// console.log(`sum: ${sum}`);
+
+// let i = 1;
+// while (i < 10) {
+//   console.log(`2 * ${i} = ${2 * i}`);
+//   i++;
+// }
+
+// for (let i = 1; i <= 20; i++) {
+//   if (i % 5 === 0) {
+//     continue;
+//   }
+//   if (i >= 15) {
+//     break;
+//   }
+//   console.log(i);
+// }
+
+let i = 1;
+let sum = 0;
+while (true) {
+  sum += i;
+  if (sum >= 100) {
+    console.log(i);
+    break;
+  }
+  i++;
 }
