@@ -14,6 +14,15 @@
 // console.log(`오늘 날짜: ${today}.`);
 
 // // 3. 데이터 타입
-const myName = "김예은";
-const age = 24;
-console.log(`안녕하세요. 저는 ${myName}이고, ${age}살입니다.`);
+// const myName = "김예은";
+// const age = 24;
+// console.log(`안녕하세요. 저는 ${myName}이고, ${age}살입니다.`);
+
+// console.log(typeof 100); // number
+// console.log(typeof "100"); // string
+// console.log(typeof true); // boolean
+// console.log(typeof undefined); // undefined
+
+// console.log(Number("a12")); // NaN
+console.log("50" + 30);
+console.log(Number("50") + 30);
