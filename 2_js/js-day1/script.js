@@ -51,5 +51,58 @@
 // } else {
 //   isDiscount = " 아니어서 할인이 불가능합니다.";
 // }
-
 // console.log(`18세 이상이거나 학생이${isDiscount}`);
+
+// // 5. 조건문
+// const age = 17;
+// if (age >= 18) {
+//   console.log("성인");
+// } else {
+//   console.log("미성년자");
+// }
+
+// let temp = 9;
+// if (temp >= 30) {
+//   console.log("매우 더워요");
+// } else if (temp >= 20) {
+//   console.log("따뜻해요");
+// } else if (temp >= 10) {
+//   console.log("선선해요");
+// } else {
+//   console.log("추워요");
+// }
+
+// let day = "토요일";
+// switch (day) {
+//   case "월요일":
+//     console.log("열심히 공부");
+//     break;
+//   case "화요일":
+//     console.log("열심히 공부");
+//     break;
+//   case "수요일":
+//     console.log("열심히 공부");
+//     break;
+//   case "목요일":
+//     console.log("열심히 공부");
+//     break;
+//   case "금요일":
+//     console.log("주말이 다가온다");
+//     break;
+//   case "토요일":
+//     console.log("휴식");
+//     break;
+//   case "일요일":
+//     console.log("휴식");
+//     break;
+// }
+
+let point = 200;
+let numPurchase = 3;
+if (point >= 1000 && numPurchase >= 10) {
+  console.log("VIP");
+} else if (point >= 500 || numPurchase >= 5) {
+  console.log("Gold");
+} else {
+  console.log("Bronze");
+}
