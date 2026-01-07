@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>사용자 목록</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+      }
+      .search-box {
+        margin-bottom: 20px;
+      }
+      #searchInput {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+      }
+      .user-card {
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+        background: #f9f9f9;
+      }
+      .user-card h3 {
+        margin: 0 0 10px 0;
+        color: #333;
+      }
+      .user-card p {
+        margin: 5px 0;
+        color: #666;
+      }
+      .loading {
+        text-align: center;
+        font-size: 18px;
+        color: #666;
+      }
+      .error {
+        color: red;
+        text-align: center;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>사용자 목록</h1>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="이름으로 검색..." />
+    </div>
+    <div id="loading" class="loading" style="display: none">로딩 중...</div>
+    <div id="error" class="error" style="display: none"></div>
+    <div id="userList"></div>
+
+    <script src="users.js"></script>
+  </body>
+</html>
