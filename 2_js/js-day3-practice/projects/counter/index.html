@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>카운터 앱</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        text-align: center;
+      }
+      #counter {
+        font-size: 72px;
+        font-weight: bold;
+        margin: 20px 0;
+      }
+      button {
+        font-size: 18px;
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>카운터 앱</h1>
+      <div id="counter">0</div>
+    </div>
+    <div>
+      <button id="decreaseBtn">감소</button>
+      <button id="resetBtn">리셋</button>
+      <button id="increaseBtn">증가</button>
+      <button id="decrease5Btn">5 감소</button>
+      <button id="increase5Btn">5 증가</button>
+    </div>
+    <script src="counter.js"></script>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Level 4</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- problem 1 -->
+    <input type="text" id="titleInput" placeholder="제목" />
+    <input type="text" id="descInput" placeholder="설명" />
+    <input type="text" id="authorInput" placeholder="작성자" />
+    <button id="addCardBtn">카드 추가</button>
+    <div id="cardContainer"></div>
+
+    <!-- problem 2 -->
+    <input type="text" id="searchInput" placeholder="검색어 입력" />
+    <select id="filterSelect">
+      <option value="all">전체</option>
+      <option value="frontend">프론트엔드</option>
+      <option value="backend">백엔드</option>
+    </select>
+    <ul id="techList"></ul>
+
+    <!-- problem 3 -->
+    <div id="settings">
+      <h3>설정</h3>
+      <label> <input type="checkbox" id="darkModeCheck" /> 다크 모드 </label>
+      <br />
+      <label>
+        폰트 크기:
+        <input type="range" id="fontSizeRange" min="12" max="24" value="16" />
+        <span id="fontSizeValue">16px</span>
+      </label>
+      <br />
+      <label>
+        테마 색상:
+        <select id="themeSelect">
+          <option value="">기본</option>
+          <option value="blue">파랑</option>
+          <option value="green">초록</option>
+          <option value="red">빨강</option>
+        </select>
+      </label>
+    </div>
+    <div id="preview">
+      <p>미리보기 텍스트입니다.</p>
+    </div>
+
+    <!-- problem 4 -->
+    <form id="signupForm">
+      <div>
+        <label> 이메일:</label>
+        <input type="email" id="emailInput" />
+        <span class="error" id="emailError"></span>
+      </div>
+      <div>
+        <label> 비밀번호:</label>
+        <input type="password" id="passwordInput" />
+        <span class="error" id="passwordError"></span>
+      </div>
+      <div>
+        <label> 비밀번호 확인:</label>
+        <input type="password" id="confirmInput" />
+        <span class="error" id="confirmError"></span>
+      </div>
+      <div>
+        <label>나이:</label>
+        <input type="number" id="ageInput" />
+        <span class="error" id="ageError"></span>
+      </div>
+      <button type="submit">가입하기</button>
+    </form>
+    <p id="successMessage" style="color: green"></p>
+
+    <!-- problem 5 -->
+    <button id="loadDataBtn">데이터 불러오기</button>
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>이름</th>
+          <th>이메일</th>
+          <th>도시</th>
+          <th>액션</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+    <p id="loading" style="display: none">로딩 중...</p>
+
+    <script src="problem01.js"></script>
+    <script src="problem02.js"></script>
+    <script src="problem03.js"></script>
+    <script src="problem04.js"></script>
+    <script src="problem05.js"></script>
+  </body>
+</html>
