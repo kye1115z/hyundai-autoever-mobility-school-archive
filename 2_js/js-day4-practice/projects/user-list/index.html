@@ -21,6 +21,12 @@
         border: 2px solid #ddd;
         border-radius: 5px;
       }
+
+      #sortOption {
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+      }
       .user-card {
         border: 1px solid #ddd;
         padding: 15px;
@@ -46,13 +52,23 @@
         text-align: center;
         font-size: 18px;
       }
+      .hidden {
+        display: none;
+      }
     </style>
   </head>
   <body>
     <h1>사용자 목록</h1>
 
-    <div class="search-box">
+    <div class="search-box" style="display: flex; gap: 10px">
       <input type="text" id="searchInput" placeholder="이름으로 검색..." />
+      <select id="sortOption">
+        <label for="sortOption"></label>
+        <option value="name">이름순</option>
+        <option value="email">이메일순</option>
+      </select>
+      <input type="checkbox" id="checkDetail" />
+      <label for="checkDetail">상세 보기</label>
     </div>
     <div id="loading" class="loading" style="display: none">로딩 중...</div>
     <div id="error" class="error" style="display: none"></div>
