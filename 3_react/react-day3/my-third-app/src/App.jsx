@@ -1,5 +1,6 @@
 import "./App.css";
 import Login from "./components/Login";
+import SharedCounter from "./components/SharedCounter";
 // import { useState } from "react";
 // import Everytime from "./components/Everytime";
 // import Once from "./components/Once";
@@ -21,7 +22,8 @@ function App() {
       <button onClick={() => setIsShow(false)}>언마운트</button> */}
 
       {/* <TitleCounter /> */}
-      <Login />
+      {/* <Login /> */}
+      <SharedCounter />
     </>
   );
 }
