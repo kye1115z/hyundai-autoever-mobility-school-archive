@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import type { Problem, Difficulty, Platform } from "../../types";
 import styles from "./ProblemForm.module.css";
 
@@ -11,20 +11,39 @@ interface ProblemFormProps {
 
 function ProblemForm({
   onAdd,
-}: //   editingProblem,
-//   onUpdate,
-//   onCancelEdit,
-ProblemFormProps) {
+  editingProblem,
+  onUpdate,
+  onCancelEdit,
+}: ProblemFormProps) {
   const [form, setForm] = useState({
     title: "",
     platform: "백준" as Platform,
     difficulty: "easy" as Difficulty,
-    solvedAt: "",
+    solvedAt: new Date().toISOString().split("T")[0],
     timeSpent: "",
     tags: "",
     memo: "",
     url: "",
   });
+
+  const titleInputRef = useRef<HTMLInputElement>(null);
+
+  // 수정 모드일 때 폼 채우기
+  useEffect(() => {
+    if (editingProblem) {
+      setForm({
+        title: editingProblem.title,
+        difficulty: editingProblem.difficulty,
+        platform: editingProblem.platform,
+        solvedAt: editingProblem.solvedAt,
+        timeSpent: editingProblem.timeSpent?.toString() || "",
+        tags: editingProblem.tags.join(", "),
+        memo: editingProblem.memo,
+        url: editingProblem.url || "",
+      });
+      titleInputRef.current?.focus();
+    }
+  }, [editingProblem]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,7 +67,14 @@ ProblemFormProps) {
       url: form.url,
     };
 
-    onAdd(problemData);
+    if (editingProblem) {
+      onUpdate({
+        ...problemData,
+        id: editingProblem.id,
+      });
+    } else {
+      onAdd(problemData);
+    }
 
     setForm({
       title: "",
@@ -60,6 +86,23 @@ ProblemFormProps) {
       memo: "",
       url: "",
     });
+
+    titleInputRef.current?.focus();
+  };
+
+  const handleCancel = () => {
+    setForm({
+      title: "",
+      difficulty: "medium",
+      platform: "백준",
+      solvedAt: new Date().toISOString().split("T")[0],
+      timeSpent: "",
+      tags: "",
+      memo: "",
+      url: "",
+    });
+    onCancelEdit();
+    titleInputRef.current?.focus();
   };
 
   return (
@@ -69,6 +112,7 @@ ProblemFormProps) {
         <div className={styles.filed}>
           <p>문제 제목 *</p>
           <input
+            ref={titleInputRef}
             type="text"
             value={form.title}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -162,7 +206,20 @@ ProblemFormProps) {
         />
       </div>
 
-      <button className={styles.formBtn}>추가하기</button>
+      <div className={styles.btnBox}>
+        <button type="submit" className={styles.formBtn}>
+          {editingProblem ? "수정하기" : "추가하기"}
+        </button>
+        {editingProblem && (
+          <button
+            type="button"
+            onClick={handleCancel}
+            className={styles.cancelBtn}
+          >
+            취소
+          </button>
+        )}
+      </div>
     </form>
   );
 }

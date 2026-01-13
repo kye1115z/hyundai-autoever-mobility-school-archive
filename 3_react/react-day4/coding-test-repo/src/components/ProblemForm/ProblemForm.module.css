@@ -30,16 +30,24 @@ textarea {
   margin-bottom: 20px;
 }
 
-.formBtn {
+.btnBox {
+  display: flex;
+  gap: 1rem;
+}
+
+button {
   width: 100%;
   padding: 8px;
-  background-color: #3b82f6;
   border: none;
   border-radius: 5px;
   color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
     background-color 0.15s ease-out;
+}
+
+.formBtn {
+  background-color: #3b82f6;
 }
 
 .formBtn:hover {
@@ -51,4 +59,14 @@ textarea {
 .formBtn:active {
   transform: translateY(0);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cancelBtn {
+  width: 100%;
+  background: #95a5a6;
+  color: white;
+}
+
+.cancelBtn:hover {
+  background: #7f8c8d;
 }

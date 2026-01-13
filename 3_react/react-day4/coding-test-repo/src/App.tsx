@@ -3,6 +3,7 @@ import ProblemForm from "./components/ProblemForm/ProblemForm";
 import type { Problem } from "./types";
 import Header from "./components/Header/Header";
 import ProblemList from "./components/ProblemList/ProblemList";
+import FilterBar from "./components/FilterBar/FilterBar";
 
 function App() {
   // Stat
@@ -38,6 +39,16 @@ function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleUpdate = (updatedProblem: Problem) => {
+    setProblems(
+      problems.map((p) => (p.id === updatedProblem.id ? updatedProblem : p))
+    );
+    setEditingProblem(null);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingProblem(null);
+  };
   // Header Stat 계산
   const stats = {
     total: problems.length,
@@ -55,7 +66,13 @@ function App() {
           medium={stats.medium}
           hard={stats.hard}
         />
-        <ProblemForm onAdd={handleAdd} />
+        <ProblemForm
+          onAdd={handleAdd}
+          editingProblem={editingProblem}
+          onUpdate={handleUpdate}
+          onCancelEdit={handleCancelEdit}
+        />
+        <FilterBar />
         <ProblemList
           problems={problems}
           onEdit={handleEdit}
