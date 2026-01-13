@@ -1,0 +1,55 @@
+.form {
+  padding: 2rem;
+  width: 70%;
+  height: fit-content;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+}
+
+.filedBox {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0px;
+  gap: 1rem;
+}
+
+.filed {
+  width: 100%;
+}
+
+.filed input,
+select,
+textarea {
+  margin-top: 10px;
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #d2d2d7;
+  border-radius: 5px;
+}
+
+.single {
+  margin-bottom: 20px;
+}
+
+.formBtn {
+  width: 100%;
+  padding: 8px;
+  background-color: #0071e3;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
+    background-color 0.15s ease-out;
+}
+
+.formBtn:hover {
+  background-color: #0077ed;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.formBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
