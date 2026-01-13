@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ProblemForm from "./components/ProblemForm/ProblemForm";
-import type { Problem } from "./types";
+import { Difficulty, Platform, type Problem } from "./types";
 import Header from "./components/Header/Header";
 import ProblemList from "./components/ProblemList/ProblemList";
 import FilterBar from "./components/FilterBar/FilterBar";
@@ -15,7 +15,17 @@ function App() {
     return [];
   });
 
+  // 수정
   const [editingProblem, setEditingProblem] = useState<Problem | null>(null);
+
+  // 필터링
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedDifficulty, setSelectedDifficulty] = useState<
+    Difficulty | "all"
+  >("all");
+  const [selectedPlatform, setSelectedPlatform] = useState<Platform | "all">(
+    "all"
+  );
 
   useEffect(() => {
     localStorage.setItem("problems", JSON.stringify(problems));
@@ -49,6 +59,7 @@ function App() {
   const handleCancelEdit = () => {
     setEditingProblem(null);
   };
+
   // Header Stat 계산
   const stats = {
     total: problems.length,
@@ -56,6 +67,9 @@ function App() {
     medium: problems.filter((p) => p.difficulty === "medium").length,
     hard: problems.filter((p) => p.difficulty === "hard").length,
   };
+
+  // Filtering 기능
+  const handleSearch = () => {};
 
   return (
     <>
@@ -72,7 +86,14 @@ function App() {
           onUpdate={handleUpdate}
           onCancelEdit={handleCancelEdit}
         />
-        <FilterBar />
+        <FilterBar
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          selectedDifficulty={selectedDifficulty}
+          onDifficultyChange={setSelectedDifficulty}
+          selectedPlatform={selectedPlatform}
+          onPlatformChange={setSelectedPlatform}
+        />
         <ProblemList
           problems={problems}
           onEdit={handleEdit}
