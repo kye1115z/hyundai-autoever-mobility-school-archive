@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ProblemForm from "./components/ProblemForm/ProblemForm";
 import type { Problem } from "./types";
 import Header from "./components/Header/Header";
+import ProblemList from "./components/ProblemList/ProblemList";
 
 function App() {
   // Stat
@@ -12,6 +13,8 @@ function App() {
     }
     return [];
   });
+
+  const [editingProblem, setEditingProblem] = useState<Problem | null>(null);
 
   useEffect(() => {
     localStorage.setItem("problems", JSON.stringify(problems));
@@ -25,7 +28,15 @@ function App() {
     };
     setProblems([newProblem, ...problems]);
   };
-  console.log(problems);
+
+  const handleDelete = (id: number) => {
+    setProblems(problems.filter((p) => p.id !== id));
+  };
+
+  const handleEdit = (problem: Problem) => {
+    setEditingProblem(problem);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   // Header Stat 계산
   const stats = {
@@ -45,6 +56,11 @@ function App() {
           hard={stats.hard}
         />
         <ProblemForm onAdd={handleAdd} />
+        <ProblemList
+          problems={problems}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
       </div>
     </>
   );
