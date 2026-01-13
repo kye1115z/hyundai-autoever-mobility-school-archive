@@ -69,7 +69,6 @@ function App() {
   };
 
   // Filtering 기능
-  const handleSearch = () => {};
 
   return (
     <>
