@@ -12,6 +12,7 @@ const groundY = canvasHeight - 50; // 땅의 Y 좌표
 const GRAVITY = 0.5;
 const PLAYER_JUMP_STRENGTH = -12;
 const PLAYER_SPEED = 5;
+const AI_SPEED = 4; // AI 이동 속도
 const BALL_SPEED = 7; // 공의 기본 속도
 
 // 눌린 키 상태
@@ -118,6 +119,42 @@ function updatePlayer1() {
     }
 }
 
+function updatePlayer2AI() {
+    // 공이 오른쪽에 있을 때만 반응
+    if (ball.x > canvasWidth / 2) {
+        if (ball.x > player2.x + player2.width / 4) {
+            player2.vx = AI_SPEED;
+        } else if (ball.x < player2.x - player2.width / 4) {
+            player2.vx = -AI_SPEED;
+        } else {
+            player2.vx = 0;
+        }
+    } else {
+        player2.vx = 0; // 공이 넘어오면 움직이지 않음
+    }
+    
+    // 중력 적용 (AI는 점프하지 않으므로 간단하게)
+    player2.y += player2.vy;
+    if (player2.y < groundY) {
+        player2.vy += GRAVITY;
+    } else {
+        player2.y = groundY;
+        player2.vy = 0;
+    }
+
+    // 위치 업데이트
+    player2.x += player2.vx;
+
+    // 경계 처리
+    if (player2.x - player2.width / 2 < net.x + net.width) {
+        player2.x = net.x + net.width + player2.width / 2;
+    }
+    if (player2.x + player2.width / 2 > canvasWidth) {
+        player2.x = canvasWidth - player2.width / 2;
+    }
+}
+
+
 function updateBall() {
     // 중력 적용
     ball.vy += GRAVITY;
@@ -141,20 +178,21 @@ function updateBall() {
     }
 
     // 네트 충돌
-    if (ball.x > net.x - ball.radius && ball.x < net.x + net.width + ball.radius && ball.y > net.y) {
+    if (ball.x > net.x - ball.radius && ball.x < net.x + net.width + ball.radius && ball.y > net.y - ball.radius) {
         // 네트 상단 충돌
-        if (ball.vy > 0 && ball.y < net.y + 10) {
+        if (ball.vy > 0 && ball.y - ball.radius < net.y) {
             ball.vy *= -1;
-            ball.y = net.y;
+            ball.y = net.y - ball.radius;
         } else { // 네트 옆면 충돌
             ball.vx *= -1;
+            ball.x += ball.vx; // 겹치지 않게 살짝 밀어냄
         }
     }
 
     // 플레이어 1 충돌
     handleCollision(player1);
     
-    // 플레이어 2 충돌 (나중을 위해)
+    // 플레이어 2 충돌
     handleCollision(player2);
 }
 
@@ -171,7 +209,7 @@ function handleCollision(player) {
 
     if (distanceSquared < ball.radius * ball.radius) {
         // 충돌 발생
-        const angle = Math.atan2(ball.y - player.y, ball.x - player.x);
+        const angle = Math.atan2(ball.y - (player.y - player.height/2), ball.x - player.x);
         ball.vx = Math.cos(angle) * BALL_SPEED;
         ball.vy = Math.sin(angle) * BALL_SPEED;
     }
@@ -181,6 +219,7 @@ function handleCollision(player) {
 function gameLoop() {
     // 1. 상태 업데이트
     updatePlayer1();
+    updatePlayer2AI();
     updateBall();
 
     // 2. 화면 지우기
@@ -198,4 +237,3 @@ function gameLoop() {
 
 // 게임 시작
 gameLoop();
-
