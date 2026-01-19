@@ -9,6 +9,15 @@ console.log('캔버스와 컨텍스트가 준비되었습니다.');
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
 const groundY = canvasHeight - 50; // 땅의 Y 좌표
+const GRAVITY = 0.5;
+const PLAYER_JUMP_STRENGTH = -12;
+const PLAYER_SPEED = 5;
+
+
+// 눌린 키 상태
+const keys = {};
+document.addEventListener('keydown', (e) => keys[e.code] = true);
+document.addEventListener('keyup', (e) => keys[e.code] = false);
 
 // 게임 요소 정의
 // 플레이어
@@ -17,7 +26,9 @@ const player1 = {
     y: groundY,
     width: 50,
     height: 50,
-    color: 'red'
+    color: 'red',
+    vx: 0, // x축 속도
+    vy: 0  // y축 속도
 };
 
 const player2 = {
@@ -73,18 +84,63 @@ function drawBall() {
     ctx.closePath();
 }
 
+// 위치 업데이트 함수
+function updatePlayer1() {
+    // 좌우 이동
+    if (keys['ArrowLeft']) {
+        player1.vx = -PLAYER_SPEED;
+    } else if (keys['ArrowRight']) {
+        player1.vx = PLAYER_SPEED;
+    } else {
+        player1.vx = 0;
+    }
+
+    // 점프
+    if (keys['ArrowUp'] && player1.y === groundY) {
+        player1.vy = PLAYER_JUMP_STRENGTH;
+    }
+
+    // 중력 적용
+    player1.vy += GRAVITY;
+
+    // 위치 업데이트
+    player1.x += player1.vx;
+    player1.y += player1.vy;
+
+    // 경계 처리
+    // 땅에 닿으면 멈춤
+    if (player1.y > groundY) {
+        player1.y = groundY;
+        player1.vy = 0;
+    }
+
+    // 왼쪽 벽
+    if (player1.x - player1.width / 2 < 0) {
+        player1.x = player1.width / 2;
+    }
+
+    // 오른쪽 (네트)
+    if (player1.x + player1.width / 2 > net.x) {
+        player1.x = net.x - player1.width / 2;
+    }
+}
+
+
 // 메인 게임 루프
 function gameLoop() {
-    // 1. 화면 지우기
+    // 1. 상태 업데이트
+    updatePlayer1();
+
+    // 2. 화면 지우기
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    // 2. 요소 그리기
+    // 3. 요소 그리기
     drawCourt();
     drawPlayer(player1);
     drawPlayer(player2);
     drawBall();
     
-    // 3. 다음 프레임 요청
+    // 4. 다음 프레임 요청
     requestAnimationFrame(gameLoop);
 }
 
