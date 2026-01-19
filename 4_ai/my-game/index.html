@@ -8,12 +8,22 @@
   </head>
   <body>
     <div id="mainMenu">
-        <h1>피카츄 배구</h1>
-        <button id="onePlayerButton">1인 모드</button>
-        <button id="twoPlayerButton">2인 모드</button>
+      <h1>피카츄 배구</h1>
+      <button id="onePlayerModeButton">1인 모드</button>
+      <button id="twoPlayerModeButton">2인 모드</button>
     </div>
-    <h1 id="gameTitle" class="hidden">피카츄 배구</h1>
+
+     <div id="twoPlayerLobby" class="hidden">
+      <h1 id="gameTitle">피카츄 배구</h1>
+      <input type="text" id="roomInput" placeholder="방 번호" />
+      <button id="createRoomButton">방 만들기</button>
+      <button id="joinRoomButton">참가</button>
+       <p id="roomStatus"></p>
+       <button id="backToMenuButton">메뉴로 돌아가기</button>
+    </div>
+    
+    <h1 id="gameStatus" class="hidden"></h1>
     <canvas id="gameCanvas" width="900" height="500" class="hidden"></canvas>
     <script src="game.js"></script>
-</body>
+  </body>
 </html>

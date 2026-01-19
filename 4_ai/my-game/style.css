@@ -36,6 +36,50 @@ body {
     background-color: #45a049;
 }
 
+#twoPlayerMenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+#twoPlayerMenu h2 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+}
+
+#twoPlayerMenu input {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+    text-align: center;
+}
+
+#twoPlayerMenu button {
+    padding: 12px 25px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+#twoPlayerMenu button:hover {
+    background-color: #0056b3;
+}
+
+#twoPlayerMenu #backButton {
+    background-color: #6c757d;
+}
+
+#twoPlayerMenu #backButton:hover {
+    background-color: #5a6268;
+}
+
 canvas {
     border: 1px solid black;
     background-color: #fff;
