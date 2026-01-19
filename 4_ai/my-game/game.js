@@ -12,7 +12,7 @@ const groundY = canvasHeight - 50; // 땅의 Y 좌표
 const GRAVITY = 0.5;
 const PLAYER_JUMP_STRENGTH = -12;
 const PLAYER_SPEED = 5;
-
+const BALL_SPEED = 7; // 공의 기본 속도
 
 // 눌린 키 상태
 const keys = {};
@@ -36,7 +36,9 @@ const player2 = {
     y: groundY,
     width: 50,
     height: 50,
-    color: 'blue'
+    color: 'blue',
+    vx: 0,
+    vy: 0
 };
 
 // 공
@@ -44,7 +46,9 @@ const ball = {
     x: canvasWidth / 2,
     y: 100,
     radius: 15,
-    color: 'yellow'
+    color: 'yellow',
+    vx: (Math.random() - 0.5) * 4, // 초기 x 속도
+    vy: (Math.random() - 0.5) * 4  // 초기 y 속도
 };
 
 // 네트
@@ -61,11 +65,9 @@ function drawCourt() {
     // 배경
     ctx.fillStyle = '#90ee90'; // 연두색 배경
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
     // 땅
     ctx.fillStyle = '#d2b48c'; // 흙색
     ctx.fillRect(0, groundY, canvasWidth, canvasHeight - groundY);
-
     // 네트
     ctx.fillStyle = net.color;
     ctx.fillRect(net.x, net.y, net.width, net.height);
@@ -94,42 +96,92 @@ function updatePlayer1() {
     } else {
         player1.vx = 0;
     }
-
     // 점프
     if (keys['ArrowUp'] && player1.y === groundY) {
         player1.vy = PLAYER_JUMP_STRENGTH;
     }
-
     // 중력 적용
     player1.vy += GRAVITY;
-
     // 위치 업데이트
     player1.x += player1.vx;
     player1.y += player1.vy;
-
     // 경계 처리
-    // 땅에 닿으면 멈춤
     if (player1.y > groundY) {
         player1.y = groundY;
         player1.vy = 0;
     }
-
-    // 왼쪽 벽
     if (player1.x - player1.width / 2 < 0) {
         player1.x = player1.width / 2;
     }
-
-    // 오른쪽 (네트)
     if (player1.x + player1.width / 2 > net.x) {
         player1.x = net.x - player1.width / 2;
     }
 }
 
+function updateBall() {
+    // 중력 적용
+    ball.vy += GRAVITY;
+
+    // 위치 업데이트
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+
+    // 벽 충돌
+    if (ball.x + ball.radius > canvasWidth || ball.x - ball.radius < 0) {
+        ball.vx *= -1;
+    }
+    // 천장 충돌
+    if (ball.y - ball.radius < 0) {
+        ball.vy *= -1;
+    }
+    // 땅 충돌
+    if (ball.y + ball.radius > groundY) {
+        ball.y = groundY - ball.radius;
+        ball.vy *= -0.8; // 탄성 적용
+    }
+
+    // 네트 충돌
+    if (ball.x > net.x - ball.radius && ball.x < net.x + net.width + ball.radius && ball.y > net.y) {
+        // 네트 상단 충돌
+        if (ball.vy > 0 && ball.y < net.y + 10) {
+            ball.vy *= -1;
+            ball.y = net.y;
+        } else { // 네트 옆면 충돌
+            ball.vx *= -1;
+        }
+    }
+
+    // 플레이어 1 충돌
+    handleCollision(player1);
+    
+    // 플레이어 2 충돌 (나중을 위해)
+    handleCollision(player2);
+}
+
+function handleCollision(player) {
+    // 플레이어와 공 사이의 거리 계산
+    const playerTop = player.y - player.height;
+    const playerLeft = player.x - player.width / 2;
+    const closestX = Math.max(playerLeft, Math.min(ball.x, playerLeft + player.width));
+    const closestY = Math.max(playerTop, Math.min(ball.y, playerTop + player.height));
+    
+    const distanceX = ball.x - closestX;
+    const distanceY = ball.y - closestY;
+    const distanceSquared = distanceX * distanceX + distanceY * distanceY;
+
+    if (distanceSquared < ball.radius * ball.radius) {
+        // 충돌 발생
+        const angle = Math.atan2(ball.y - player.y, ball.x - player.x);
+        ball.vx = Math.cos(angle) * BALL_SPEED;
+        ball.vy = Math.sin(angle) * BALL_SPEED;
+    }
+}
 
 // 메인 게임 루프
 function gameLoop() {
     // 1. 상태 업데이트
     updatePlayer1();
+    updateBall();
 
     // 2. 화면 지우기
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
