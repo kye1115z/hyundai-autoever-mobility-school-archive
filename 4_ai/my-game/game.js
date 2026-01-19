@@ -70,8 +70,8 @@ document.addEventListener("keyup", (e) => (keys[e.code] = false));
 const player1 = {
   x: 150,
   y: groundY,
-  width: 50,
-  height: 50,
+  width: 60,
+  height: 60,
   color: "red",
   vx: 0,
   vy: 0,
@@ -79,8 +79,8 @@ const player1 = {
 const player2 = {
   x: canvasWidth - 200,
   y: groundY,
-  width: 50,
-  height: 50,
+  width: 60,
+  height: 60,
   color: "blue",
   vx: 0,
   vy: 0,
