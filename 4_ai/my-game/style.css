@@ -5,8 +5,10 @@ body {
   align-items: center;
   margin: 0;
   height: 100vh;
-  background-color: #f0f0f0;
-  font-family: Arial, sans-serif;
+  background-color: white; /* White background as requested */
+  font-family: "Press Start 2P", cursive; /* Pixel font */
+  color: #333333; /* Dark grey for readability */
+  image-rendering: pixelated; /* Ensure pixelated rendering */
 }
 
 #mainMenu {
@@ -14,77 +16,114 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  background-color: #f0f0f0; /* Light grey for subtle distinction */
+  padding: 30px;
+  border: 4px solid #c0c0c0; /* Light grey pixelated border */
+  box-shadow: 8px 8px 0px 0px #c0c0c0; /* Pixelated shadow */
 }
 
 #mainMenu h1 {
-  font-size: 3em;
+  font-size: 2.5em; /* Adjusted for pixel font */
   margin-bottom: 20px;
+  color: #333333; /* Dark grey */
+  text-shadow: 2px 2px 0px #a0a0a0; /* Subtle pixelated text shadow */
 }
 
 #mainMenu button {
   padding: 15px 30px;
-  font-size: 1.2em;
+  font-size: 1em; /* Adjusted for pixel font */
   cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  background-color: #4caf50;
+  border: 4px solid #483d8b; /* DarkSlateBlue border */
+  border-radius: 0; /* Remove rounded corners */
+  background-color: #6a5acd; /* SlateBlue */
   color: white;
-  transition: background-color 0.3s;
+  text-shadow: 2px 2px 0px #2f4f4f; /* DarkSlateGray shadow */
+  transition: background-color 0.1s ease-in-out, transform 0.1s ease-in-out;
+  box-shadow: 4px 4px 0px 0px #483d8b; /* DarkSlateBlue shadow */
 }
 
 #mainMenu button:hover {
-  background-color: #45a049;
+  background-color: #5b4bab; /* Slightly darker SlateBlue on hover */
+  transform: translate(2px, 2px); /* Pixelated press effect */
+  box-shadow: 2px 2px 0px 0px #483d8b;
 }
 
-#twoPlayerMenu {
+#twoPlayerLobby {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
+  background-color: #f0f0f0; /* Light grey for subtle distinction */
+  padding: 30px;
+  border: 4px solid #c0c0c0; /* Light grey pixelated border */
+  box-shadow: 8px 8px 0px 0px #c0c0c0; /* Pixelated shadow */
 }
 
-#twoPlayerMenu h2 {
+#twoPlayerLobby h1 {
   font-size: 2.5em;
   margin-bottom: 15px;
+  color: #333333; /* Dark grey */
+  text-shadow: 2px 2px 0px #a0a0a0;
 }
 
-#twoPlayerMenu input {
+#twoPlayerLobby input {
   padding: 10px;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  font-size: 0.8em;
+  border: 4px solid #c0c0c0; /* Light grey pixelated border */
+  border-radius: 0; /* Remove rounded corners */
   width: 250px;
   text-align: center;
+  background-color: white;
+  color: #333333;
 }
 
-#twoPlayerMenu button {
+#twoPlayerLobby button {
   padding: 12px 25px;
-  font-size: 1em;
+  font-size: 0.9em;
   cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
+  border: 4px solid #2f4f4f; /* DarkSlateGray border */
+  border-radius: 0; /* Remove rounded corners */
+  background-color: #5f9ea0; /* CadetBlue */
   color: white;
-  transition: background-color 0.3s;
+  text-shadow: 2px 2px 0px #223f3f; /* Darker shadow */
+  transition: background-color 0.1s ease-in-out, transform 0.1s ease-in-out;
+  box-shadow: 4px 4px 0px 0px #2f4f4f;
 }
 
-#twoPlayerMenu button:hover {
-  background-color: #0056b3;
+#twoPlayerLobby button:hover {
+  background-color: #508a8c; /* Slightly darker CadetBlue on hover */
+  transform: translate(2px, 2px); /* Pixelated press effect */
+  box-shadow: 2px 2px 0px 0px #2f4f4f;
 }
 
-#twoPlayerMenu #backButton {
-  background-color: #6c757d;
+#twoPlayerLobby #backButton {
+  background-color: #d3d3d3; /* LightGrey */
+  color: #333333;
+  text-shadow: none;
+  border: 4px solid #a9a9a9; /* DarkGrey border */
+  box-shadow: 4px 4px 0px 0px #a9a9a9;
 }
 
-#twoPlayerMenu #backButton:hover {
-  background-color: #5a6268;
+#twoPlayerLobby #backButton:hover {
+  background-color: #c2c2c2; /* Darker LightGrey on hover */
+  box-shadow: 2px 2px 0px 0px #a9a9a9;
+}
+
+#gameStatus {
+  font-size: 2.5em;
+  color: #333333; /* Dark grey */
+  text-shadow: 2px 2px 0px #a0a0a0;
 }
 
 canvas {
-  border: 1px solid black;
-  background-color: #fff;
+  border: 4px solid #c0c0c0; /* Light grey pixelated border */
+  background-color: #f0f0f0; /* Light grey background for canvas */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
 }
 
 .hidden {
   display: none;
 }
+

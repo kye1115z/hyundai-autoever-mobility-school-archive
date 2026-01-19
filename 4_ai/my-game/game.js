@@ -70,18 +70,20 @@ document.addEventListener("keyup", (e) => (keys[e.code] = false));
 const player1 = {
   x: 150,
   y: groundY,
-  width: 60,
-  height: 60,
-  color: "red",
+  width: 55,
+  height: 55,
+  radius: 10,
+  color: "#ff69b4", // Hot pink
   vx: 0,
   vy: 0,
 };
 const player2 = {
   x: canvasWidth - 200,
   y: groundY,
-  width: 60,
-  height: 60,
-  color: "blue",
+  width: 55,
+  height: 55,
+  radius: 10,
+  color: "#d0fa6c", // Sky blue
   vx: 0,
   vy: 0,
 };
@@ -89,7 +91,7 @@ const ball = {
   x: canvasWidth / 2,
   y: 100,
   radius: 15,
-  color: "yellow",
+  color: "#ffff00", // Bright yellow
   vx: 0,
   vy: 0,
 };
@@ -98,7 +100,7 @@ const net = {
   y: groundY - 100,
   width: 5,
   height: 100,
-  color: "grey",
+  color: "#a0522d", // Sienna (wood-like)
 };
 
 // --- UI 관리 ---
@@ -143,9 +145,9 @@ function resetRound() {
 }
 
 function drawCourt() {
-  ctx.fillStyle = "#90ee90";
+  ctx.fillStyle = "#87CEEB"; // SkyBlue for sky
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-  ctx.fillStyle = "#d2b48c";
+  ctx.fillStyle = "#9ACD32"; // YellowGreen for ground
   ctx.fillRect(0, groundY, canvasWidth, canvasHeight - groundY);
   ctx.fillStyle = net.color;
   ctx.fillRect(net.x, net.y, net.width, net.height);
@@ -170,8 +172,8 @@ function drawBall() {
 }
 
 function drawScores() {
-  ctx.fillStyle = "black";
-  ctx.font = "30px Arial";
+  ctx.fillStyle = "#333"; /* Darker color for pixel art */
+  ctx.font = "20px 'Press Start 2P'"; /* Pixel font */
   ctx.textAlign = "center";
   ctx.fillText(`${player1Score} : ${player2Score}`, canvasWidth / 2, 50);
 }
@@ -181,7 +183,7 @@ function drawGameStatus() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     ctx.fillStyle = "white";
-    ctx.font = "40px Arial";
+    ctx.font = "30px 'Press Start 2P'"; /* Pixel font */
     ctx.textAlign = "center";
     ctx.fillText(gameStatus.textContent, canvasWidth / 2, canvasHeight / 2);
   }
@@ -435,16 +437,20 @@ function gameLoop() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     ctx.fillStyle = "white";
-    ctx.font = "bold 60px Arial";
+    ctx.font = "bold 40px 'Press Start 2P'"; /* Pixel font */
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(endGameMessage, canvasWidth / 2, canvasHeight / 2);
+    ctx.fillText(
+      endGameMessage,
+      canvasWidth / 2,
+      canvasHeight / 2 - 30,
+    ); /* Adjusted position */
 
-    ctx.font = "24px Arial";
+    ctx.font = "20px 'Press Start 2P'"; /* Pixel font */
     ctx.fillText(
       "메뉴로 돌아가려면 엔터를 누르세요",
-      canvasWidth / 2 - 20,
-      canvasHeight / 2 + 60,
+      canvasWidth / 2,
+      canvasHeight / 2 + 30 /* Adjusted position */,
     );
   }
 
