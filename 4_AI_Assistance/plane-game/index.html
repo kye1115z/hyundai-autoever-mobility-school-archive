@@ -79,6 +79,80 @@
         height: 100%;
         background: red;
       }
+
+      .powerup {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border: 2px solid gold;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ffeb3b, #fbc02d);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        box-shadow: 0 0 10px rgba(255, 235, 59, 0.8);
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .powerup-active {
+        position: fixed;
+        top: 50px;
+        right: 20px;
+        padding: 8px 16px;
+        background: rgba(255, 235, 59, 0.9);
+        border-radius: 4px;
+        color: #000;
+        font-weight: bold;
+        animation: fadeInOut 0.5s ease-out;
+      }
+
+      @keyframes fadeInOut {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        50% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .explosion {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background: radial-gradient(circle, #ff9800, #ff5722);
+        border-radius: 50%;
+        animation: explode 0.6s ease-out forwards;
+        pointer-events: none;
+      }
+
+      @keyframes explode {
+        0% {
+          opacity: 1;
+          transform: scale(0.3);
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1.5);
+        }
+      }
     </style>
   </head>
   <body>
@@ -86,6 +160,7 @@
       <div id="ui">
         <div>HP: <span id="hp">3</span></div>
         <div>Kills: <span id="kills">0</span></div>
+        <div>Wave: <span id="wave">1</span></div>
       </div>
       <div id="game">
         <div id="player"></div>
@@ -106,16 +181,26 @@
 
       let hp = 3;
       let kills = 0;
+      let wave = 1;
+      let totalKills = 0;
 
       const speed = 6;
-      const missileSpeed = 10;
-      const enemySpeed = 2;
+      let missileSpeed = 10;
+      let enemySpeed = 2;
+      let spawnRate = 1000;
 
       const missiles = [];
       const enemies = [];
+      const powerups = [];
+      const particles = [];
+
+      let activePowerup = null;
+      let powerupTimer = 0;
+      let multiShot = false;
 
       let boss = null;
       let bossDir = 1;
+      let spawnEnemyInterval = null;
 
       const keys = {};
 
@@ -129,21 +214,29 @@
       });
 
       function fireMissile() {
-        const missile = document.createElement("div");
-        missile.className = "missile";
-
         const mx = x + 18;
         const my = y;
 
+        if (multiShot) {
+          for (let angle of [-0.3, 0, 0.3]) {
+            createMissile(mx + 10 * angle, my, angle);
+          }
+        } else {
+          createMissile(mx, my, 0);
+        }
+      }
+
+      function createMissile(mx, my, angle) {
+        const missile = document.createElement("div");
+        missile.className = "missile";
         missile.style.left = mx + "px";
         missile.style.top = my + "px";
-
         game.appendChild(missile);
-        missiles.push({ el: missile, x: mx, y: my });
+        missiles.push({ el: missile, x: mx, y: my, angle });
       }
 
       function spawnEnemy() {
-        if (boss || kills >= 10) return;
+        if (boss) return;
 
         const enemy = document.createElement("div");
         enemy.className = "enemy";
@@ -158,7 +251,81 @@
         enemies.push({ el: enemy, x: ex, y: ey });
       }
 
-      setInterval(spawnEnemy, 1000);
+      function startEnemySpawner() {
+        if (spawnEnemyInterval) clearInterval(spawnEnemyInterval);
+        spawnEnemyInterval = setInterval(spawnEnemy, spawnRate);
+      }
+
+      function spawnPowerup(ex, ey) {
+        const types = ["speed", "multishot", "heal"];
+        const type = types[Math.floor(Math.random() * types.length)];
+        const symbols = { speed: "⚡", multishot: "🔶", heal: "❤️" };
+
+        const powerup = document.createElement("div");
+        powerup.className = "powerup";
+        powerup.textContent = symbols[type];
+        powerup.style.left = ex + "px";
+        powerup.style.top = ey + "px";
+
+        game.appendChild(powerup);
+        powerups.push({ el: powerup, x: ex, y: ey, type });
+      }
+
+      function createExplosion(x, y) {
+        const explosion = document.createElement("div");
+        explosion.className = "explosion";
+        explosion.style.left = x + "px";
+        explosion.style.top = y + "px";
+        game.appendChild(explosion);
+
+        setTimeout(() => explosion.remove(), 600);
+
+        for (let i = 0; i < 8; i++) {
+          const angle = (Math.PI * 2 * i) / 8;
+          const vx = Math.cos(angle) * 4;
+          const vy = Math.sin(angle) * 4;
+
+          const particle = document.createElement("div");
+          particle.style.left = x + "px";
+          particle.style.top = y + "px";
+          particle.style.width = "4px";
+          particle.style.height = "4px";
+          particle.style.background = "#ff9800";
+          particle.style.borderRadius = "50%";
+          game.appendChild(particle);
+
+          particles.push({ el: particle, x, y, vx, vy, life: 30 });
+        }
+      }
+
+      function activatePowerup(type) {
+        const messages = {
+          speed: "⚡ 연사 속도 UP!",
+          multishot: "🔶 멀티샷 활성화!",
+          heal: "❤️ HP 회복!",
+        };
+
+        if (type === "speed") {
+          missileSpeed = 15;
+          activePowerup = "speed";
+          powerupTimer = 300;
+        } else if (type === "multishot") {
+          multiShot = true;
+          activePowerup = "multishot";
+          powerupTimer = 300;
+        } else if (type === "heal" && hp < 3) {
+          hp++;
+          hpEl.textContent = hp;
+        }
+
+        const msg = document.createElement("div");
+        msg.className = "powerup-active";
+        msg.textContent = messages[type];
+        document.body.appendChild(msg);
+        setTimeout(() => msg.remove(), 1500);
+      }
+
+      startEnemySpawner();
 
       function spawnBoss() {
         const bossEl = document.createElement("div");
@@ -173,14 +340,39 @@
         bossEl.appendChild(hpBar);
         game.appendChild(bossEl);
 
+        const bossHp = 15 + wave * 5;
         boss = {
           el: bossEl,
           hpInner,
           x: GAME_WIDTH / 2 - 60,
           y: 40,
-          hp: 20,
-          maxHp: 20,
+          hp: bossHp,
+          maxHp: bossHp,
         };
+      }
+
+      function nextWave() {
+        if (boss) {
+          boss.el.remove();
+          boss = null;
+        }
+
+        wave++;
+        kills = 0;
+        killsEl.textContent = kills;
+        document.getElementById("wave").textContent = wave;
+
+        enemySpeed = 2 + wave * 0.3;
+        spawnRate = Math.max(500, 1000 - wave * 50);
+
+        startEnemySpawner();
+
+        const msg = document.createElement("div");
+        msg.className = "powerup-active";
+        msg.textContent = `🎯 WAVE ${wave} 시작!`;
+        msg.style.background = "rgba(100, 200, 255, 0.9)";
+        document.body.appendChild(msg);
+        setTimeout(() => msg.remove(), 2000);
       }
 
       function isColliding(a, b, aw, ah, bw, bh) {
@@ -204,7 +396,9 @@
         // 미사일
         missiles.forEach((m, mi) => {
           m.y -= missileSpeed;
+          m.x += (m.angle || 0) * missileSpeed;
           m.el.style.top = m.y + "px";
+          m.el.style.left = m.x + "px";
 
           if (m.y < -20) {
             m.el.remove();
@@ -220,6 +414,7 @@
           if (isColliding(e, { x, y }, 36, 36, 40, 40)) {
             e.el.remove();
             enemies.splice(ei, 1);
+            createExplosion(e.x + 18, e.y + 18);
             hp--;
             hpEl.textContent = hp;
             if (hp <= 0) {
@@ -235,9 +430,16 @@
               missiles.splice(mi, 1);
               enemies.splice(ei, 1);
               kills++;
+              totalKills++;
               killsEl.textContent = kills;
 
-              if (kills === 10) spawnBoss();
+              createExplosion(e.x + 18, e.y + 18);
+
+              if (Math.random() < 0.3) {
+                spawnPowerup(e.x, e.y);
+              }
+
+              if (kills === 5 + wave * 2) spawnBoss();
             }
           });
         });
@@ -257,14 +459,61 @@
               m.el.remove();
               missiles.splice(mi, 1);
               boss.hp--;
+              createExplosion(m.x, m.y);
               boss.hpInner.style.width = (boss.hp / boss.maxHp) * 100 + "%";
 
               if (boss.hp <= 0) {
-                alert("YOU WIN!");
-                location.reload();
+                createExplosion(boss.x + 60, boss.y + 40);
+                createExplosion(boss.x + 40, boss.y + 30);
+                createExplosion(boss.x + 80, boss.y + 50);
+                setTimeout(() => {
+                  nextWave();
+                }, 800);
               }
             }
           });
+        }
+
+        // 파워업 처리
+        powerups.forEach((p, pi) => {
+          p.y += 2;
+          p.el.style.top = p.y + "px";
+
+          if (isColliding(p, { x, y }, 24, 24, 40, 40)) {
+            p.el.remove();
+            powerups.splice(pi, 1);
+            activatePowerup(p.type);
+          }
+
+          if (p.y > GAME_HEIGHT) {
+            p.el.remove();
+            powerups.splice(pi, 1);
+          }
+        });
+
+        // 파티클 업데이트
+        particles.forEach((p, pi) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.life--;
+          p.el.style.left = p.x + "px";
+          p.el.style.top = p.y + "px";
+          p.el.style.opacity = p.life / 30;
+
+          if (p.life <= 0) {
+            p.el.remove();
+            particles.splice(pi, 1);
+          }
+        });
+
+        // 파워업 타이머 감소
+        if (activePowerup) {
+          powerupTimer--;
+          if (powerupTimer <= 0) {
+            missileSpeed = 10;
+            multiShot = false;
+            activePowerup = null;
+          }
         }
 
         requestAnimationFrame(gameLoop);
