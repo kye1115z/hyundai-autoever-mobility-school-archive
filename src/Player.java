@@ -50,6 +50,22 @@ public class Player {
         return null;
     }
 
+    //  방어 카드
+    public Card playBotDefense(Card topCard) {
+        for(Card card: hand) {
+            if (card instanceof PlayingCard && topCard instanceof PlayingCard) {
+                PlayingCard myCard = (PlayingCard) card;
+                PlayingCard target = (PlayingCard) topCard;
+
+                if (myCard.getRank() == target.getRank()) {
+                    hand.remove(card);
+                    return card;
+                }
+            }
+        }
+        return null;
+    }
+
     public int handSize() {
         return  hand.size();
     }

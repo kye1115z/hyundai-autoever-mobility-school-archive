@@ -78,22 +78,38 @@ public class Game {
         System.out.println("테이블 카드: " + topCard);
 
         // 이전 카드가 공격 카드인지 아닌지 확인 및 처리
-        if(pendingDraw > 0) System.out.println("⚠️ 공격 받음! 누적 카드: " + pendingDraw + "장");
+        if(pendingDraw > 0) {
+            System.out.println("⚠️ 공격 받음! 누적 카드: " + pendingDraw + "장");
 
-        if (pendingDraw > 0) {
-            // 방어할 카드가 있는지 체크하는 로직은 나중에 추가하자.
-            System.out.println("❌ " + current.getName() + "님의 방어 실패! " + pendingDraw + "장을 먹습니다.");
-            for(int i=0; i<pendingDraw; i++) {
-                current.draw(drawFromDeck());
+            Card defenseCard = null;
+
+            if(current.isHuman()) {
+                defenseCard = processHumanDefense(current);
+            } else {
+                defenseCard = current.playBotDefense(topCard);
+                if(defenseCard != null) {
+                    System.out.println(defenseCard + " 로 공격을 방어했습니다.");
+                }
             }
-            pendingDraw = 0;
+
+            if(defenseCard != null) {
+                discardPile.add(topCard);
+                topCard = defenseCard;
+                defenseCard.applyEffect(this);
+                System.out.println("⚔\uFE0F 방어 성공! 누적 카드: " + pendingDraw + "장");
+            } else {
+                System.out.println("🏳️ 방어 실패... " + pendingDraw + "장을 먹습니다.");
+                for (int i=0; i<pendingDraw; i++) {
+                    current.draw(drawFromDeck());
+                }
+                pendingDraw = 0;
+            }
             return;
-        }
+        };
 
         current.showHand();
 
         Card playedCard = null;
-
         if (current.isHuman()) {
             playedCard = processHumanTurn(current);
         } else {
@@ -137,6 +153,38 @@ public class Game {
             } else {
                 System.out.println("그 카드는 낼 수 없습니다. (무늬나 숫자가 같아야 합니다.)");
             }
+        }
+    }
+
+    private Card processHumanDefense(Player player) {
+        while(true) {
+            player.showHand();
+            System.out.print("방어할 카드를 선택하세요. (0: 포기하고 카드 먹기): ");
+            int input = sc.nextInt();
+
+            if(input == 0) {
+                return null;
+            }
+
+            int cardIndex = input - 1;
+            if (cardIndex < 0 || cardIndex >= player.handSize()) {
+                System.out.println("잘못된 번호입니다.");
+                continue;
+            }
+
+            Card selected = player.getCard(cardIndex);
+
+            // 방어룰 체크 (2는 2로, A는 A로.. 심화 률 적용 가능)
+            if (selected instanceof PlayingCard && topCard instanceof PlayingCard) {
+                PlayingCard myCard = (PlayingCard) selected;
+                PlayingCard attackCard = (PlayingCard) topCard;
+
+                if (myCard.getRank() == attackCard.getRank()) {
+                    player.removeCard(selected);
+                    return selected;
+                }
+            }
+            System.out.println("방어용으로 사용할 수 없는 카드입니다.");
         }
     }
 
