@@ -24,7 +24,12 @@ public class Deck {
     }
 
     public Card draw() {
-        return cards.remove(0);
+        if (!cards.isEmpty()) {
+            return cards.remove(0);
+        } else {
+            System.out.println("덱이 비었습니다!");
+            return null;
+        }
     }
 
     public int size() {

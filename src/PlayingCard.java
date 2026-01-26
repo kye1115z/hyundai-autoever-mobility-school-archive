@@ -26,18 +26,17 @@ public class PlayingCard extends Card {
             if (!(topCard instanceof PlayingCard other)) return false;
 
             PlayingCard top = (PlayingCard) topCard;
-
             return this.suit == top.suit || this.rank == top.rank;
     }
 
     @Override
     public void applyEffect(Game game) {
         if(rank == Rank.TWO) {
-            System.out.println("💥 2 카드! 즉시 상대가 카드 2장 먹음");
-            for (int i = 0; i < 2; i++) {
-                game.moveToNextPlayer();
-            }
+            System.out.println("💥 2 카드! 카드 +2");
+            game.addAttack(2);
         }
+
+        if (rank == Rank.ACE) System.out.println("💥 ACE 카드! 카드 +3");
 
         if (rank == Rank.JACK) {
             System.out.println("⏭ J 카드! 다음 플레이어 스킵");
@@ -46,6 +45,12 @@ public class PlayingCard extends Card {
 
         if (rank == Rank.QUEEN) {
             System.out.println("🔄 Q 카드! 방향 전환");
+            game.reverseDirection();
+        }
+
+        if (rank == Rank.KING) {
+            System.out.println("\uD83D\uDC51 K 카드! 한 번 더");
+            game.reverseDirection();
             game.reverseDirection();
         }
     }

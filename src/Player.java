@@ -4,13 +4,19 @@ import java.util.List;
 public class Player {
     private String name;
     private List<Card> hand = new ArrayList<>();
+    private boolean isHuman;
 
-    public Player(String name) {
+    public Player(String name, boolean isHuman) {
         this.name = name;
+        this.isHuman = isHuman;
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean isHuman() {
+        return isHuman;
     }
 
     // 카드 한 장 받기
@@ -18,14 +24,23 @@ public class Player {
         hand.add(card);
     }
 
-    public void showHand() {
-        for(Card card: hand) {
-            System.out.println(card);
-        }
+    public Card getCard(int index) {
+        return hand.get(index);
     }
 
-    // 낼 수 있는 카드 하나 내기
-    public Card play(Card topCard) {
+    public void removeCard(Card card) {
+        hand.remove(card);
+    }
+
+    public void showHand() {
+        System.out.println(name + "의 패: ");
+        for(int i=0; i<hand.size(); i++) {
+            System.out.print("[" + (i+1) + "] " + hand.get(i) + "\n");
+        }
+        System.out.println();
+    }
+
+    public Card playBot(Card topCard) {
         for (Card card: hand) {
             if (card.canPlayOn(topCard)) {
                 hand.remove(card);
