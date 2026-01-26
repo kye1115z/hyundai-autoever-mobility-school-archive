@@ -220,4 +220,35 @@ public class Game {
         }
         return deck.draw();
     }
+
+    public void stayTurn() {
+        currentPlayerIndex -= direction;
+    }
+
+    public void changeSuit() {
+        Player current = players.get(currentPlayerIndex);
+
+        if(!(topCard instanceof PlayingCard)) return;
+        PlayingCard cardToChange = (PlayingCard) topCard;
+
+        if(current.isHuman()) {
+            System.out.println("변경할 문양을 선택하세요:");
+            System.out.println("1. SPADE ♠️  2. HEART ♥️  3. DIAMOND ♦️  4. CLUB ♣️");
+
+            while(true) {
+                System.out.print("입력>> ");
+                int choice = sc.nextInt();
+                if (choice == 1) { cardToChange.setSuit(Suit.SPADE); break; }
+                else if (choice == 2) { cardToChange.setSuit(Suit.HEART); break; }
+                else if (choice == 3) { cardToChange.setSuit(Suit.DIAMOND); break; }
+                else if (choice == 4) { cardToChange.setSuit(Suit.CLUB); break; }
+                else { System.out.println("잘못된 입력입니다."); }
+            }
+        } else {
+            Suit[] suits = Suit.values();
+            Suit randomSuit = suits[(int)(Math.random() * suits.length)];
+            cardToChange.setSuit(randomSuit);
+            System.out.println("문양을 " + randomSuit + "로 변경했습니다.");
+        }
+    }
 }

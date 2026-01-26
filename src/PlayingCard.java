@@ -1,10 +1,15 @@
 public class PlayingCard extends Card {
-    private final Suit suit;
+    private Suit suit;
     private final Rank rank;
 
     public PlayingCard(Suit suit, Rank rank) {
         this.suit = suit;
         this.rank = rank;
+    }
+
+    // 7 문양 바꾸기
+    public void setSuit(Suit suit) {
+        this.suit = suit;
     }
 
     public Suit getSuit() {
@@ -38,7 +43,10 @@ public class PlayingCard extends Card {
             game.addAttack(2);
         }
 
-        if (rank == Rank.ACE) System.out.println("💥 ACE 카드! 카드 +3");
+        if (rank == Rank.ACE) {
+            System.out.println("💥 ACE 카드! 카드 +3");
+            game.addAttack(3);
+        };
 
         if (rank == Rank.JACK) {
             System.out.println("⏭ J 카드! 다음 플레이어 스킵");
@@ -52,8 +60,12 @@ public class PlayingCard extends Card {
 
         if (rank == Rank.KING) {
             System.out.println("\uD83D\uDC51 K 카드! 한 번 더");
-            game.reverseDirection();
-            game.reverseDirection();
+            game.stayTurn();
+        }
+
+        if(rank == Rank.SEVEN) {
+            System.out.println("\uD83C\uDF08 7 카드! 문양 변경");
+            game.changeSuit();
         }
     }
 }
