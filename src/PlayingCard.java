@@ -29,6 +29,8 @@ public class PlayingCard extends Card {
             return this.suit == top.suit || this.rank == top.rank;
     }
 
+
+
     @Override
     public void applyEffect(Game game) {
         if(rank == Rank.TWO) {

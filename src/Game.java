@@ -6,6 +6,7 @@ public class Game {
 
     private Deck deck;
     private List<Player> players = new ArrayList<>();
+    private List<Card> discardPile = new ArrayList<>();
     private int currentPlayerIndex = 0;
     private int direction = 1; // 정방향 1, 역방향 -1
     private Player player;
@@ -38,12 +39,12 @@ public class Game {
 
         for (Player player : players) {
             for(int i=0; i<7; i++) {
-                player.draw(deck.draw());
+                player.draw(drawFromDeck());
             }
         }
 
         // 시작 카드
-        topCard = deck.draw();
+        topCard = drawFromDeck();
         System.out.println("시작 카드: " + topCard);
 
         playGame();
@@ -83,7 +84,7 @@ public class Game {
             // 방어할 카드가 있는지 체크하는 로직은 나중에 추가하자.
             System.out.println("❌ " + current.getName() + "님의 방어 실패! " + pendingDraw + "장을 먹습니다.");
             for(int i=0; i<pendingDraw; i++) {
-                current.draw(deck.draw());
+                current.draw(drawFromDeck());
             }
             pendingDraw = 0;
             return;
@@ -101,10 +102,11 @@ public class Game {
 
         if (playedCard != null) {
             System.out.println("낸 카드: " + playedCard);
+            discardPile.add(topCard);
             topCard = playedCard;
             playedCard.applyEffect(this);
         } else {
-            Card drawn = deck.draw();
+            Card drawn = drawFromDeck();
             if (drawn != null) {
                 current.draw(drawn);
             }
@@ -158,5 +160,16 @@ public class Game {
 
     public void addAttack(int amount) {
         this.pendingDraw += amount;
+    }
+
+    private Card drawFromDeck() {
+        if(deck.isEmpty()) {
+            if(discardPile.isEmpty()) {
+                return null;
+            }
+            deck.refill(discardPile);
+            discardPile.clear();
+        }
+        return deck.draw();
     }
 }

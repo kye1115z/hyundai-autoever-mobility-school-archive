@@ -32,9 +32,19 @@ public class Deck {
         }
     }
 
+    public boolean isEmpty() {
+        return cards.isEmpty();
+    }
+
+    public void refill(List<Card> discardedCards) {
+        this.cards.addAll(discardedCards);
+        shuffle();
+        System.out.println("덱을 섞었습니다.");
+    }
+
+
     public int size() {
         return cards.size();
     }
-
 
 }
