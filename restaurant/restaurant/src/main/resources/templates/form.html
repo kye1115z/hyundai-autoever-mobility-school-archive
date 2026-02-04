@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>음식점 추가</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>🍽️ 새 음식점 추가</h1>
+    <form action="/restaurants" method="post">
+        <table>
+            <tr>
+                <td><label>음식점 이름:</label></td>
+                <td><input type="text" name="name" required></td>
+            </tr>
+            <tr>
+                <td><label>카테고리</label></td>
+                <td>
+                    <select name="category" required>
+                        <option value="">선택하세요</option>
+                        <option value="한식">한식</option>
+                        <option value="중식">중식</option>
+                        <option value="일식">일식</option>
+                        <option value="양식">양식</option>
+                        <option value="분식">분식</option>
+                        <option value="카페">카페</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label>위치:</label></td>
+                <td><input type="text" name="location" required></td>
+            </tr>
+            <tr>
+                <td><label>대표메뉴:</label></td>
+                <td><input type="text" name="signature" required></td>
+            </tr>
+            <tr>
+                <td><label>설명:</label></td>
+                <td><textarea type="text" name="description" rows="3" required></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit">추가하기</button>
+                    <a href="/restaurants">취소</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
